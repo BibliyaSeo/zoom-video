@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface AuthInitialState {
+export interface AuthInitialState {
   userInfo:
     | {
         uid: string;
@@ -24,4 +24,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const {} = authSlice.actions;
+export const { setUser } = authSlice.actions;
