@@ -1,3 +1,8 @@
 # Getting Started with Create React App
 
-## Zoon-Video
+## Zoom-Video
+
+react
+redux-toolkit
+elastic UI
+firebase
