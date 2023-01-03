@@ -1,16 +1,43 @@
-import { EuiHeader, EuiText, EuiTextColor } from "@elastic/eui";
+import {
+  EuiButtonIcon,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiHeader,
+  EuiText,
+  EuiTextColor,
+} from "@elastic/eui";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
+import { firebaseAuth } from "../utils/FirebaseConfig";
+import { signOut } from "firebase/auth";
+import { changeTheme } from "../app/slices/AuthSlice";
+import { getCreateMeetingBreadCrumbs } from "../utils/breadCrumbs";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const username = useAppSelector((zoom) => zoom.auth.userInfo?.name);
+  const isDarkTheme = useAppSelector((zoom) => zoom.auth.isDarkTheme);
   const [breadCrumbs, setBreadCrumbs] = useState([{ text: "Dashboard" }]);
   const [isResponsive, setIsResponsive] = useState(false);
+
+  const logout = () => {
+    signOut(firebaseAuth);
+  };
+
+  useEffect(() => {
+    const { pathname } = location;
+    if (pathname === "/create") setBreadCrumbs(getCreateMeetingBreadCrumbs(navigate));
+  }, [location, navigate]);
+
+  const invertTheme = () => {
+    const theme = localStorage.getItem("zoom-theme");
+    localStorage.setItem("zoom-theme", theme === "light" ? "dark" : "light");
+    dispatch(changeTheme({ isDarkTheme: !isDarkTheme }));
+  };
 
   const section = [
     {
@@ -38,6 +65,47 @@ export default function Header() {
         </>,
       ],
     },
+    {
+      items: [
+        <EuiFlexGroup
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+          style={{ gap: "2vw" }}
+        >
+          <EuiFlexItem grow={false} style={{ flexBasis: "fit-content" }}>
+            {isDarkTheme ? (
+              <EuiButtonIcon
+                onClick={invertTheme}
+                iconType="sun"
+                display="fill"
+                color="warning"
+                size="s"
+                aria-lable="light-mode"
+              />
+            ) : (
+              <EuiButtonIcon
+                onClick={invertTheme}
+                iconType="moon"
+                display="fill"
+                color="ghost"
+                size="s"
+                aria-lable="dark-mode"
+              />
+            )}
+          </EuiFlexItem>
+          <EuiFlexItem grow={false} style={{ flexBasis: "fit-content" }}>
+            <EuiButtonIcon
+              onClick={logout}
+              iconType="lock"
+              display="fill"
+              size="s"
+              aria-lable="logout-button"
+            />
+          </EuiFlexItem>
+        </EuiFlexGroup>,
+      ],
+    },
   ];
   const responsiveSection = [
     {
@@ -49,6 +117,47 @@ export default function Header() {
             </h2>
           </EuiText>
         </Link>,
+      ],
+    },
+    {
+      items: [
+        <EuiFlexGroup
+          justifyContent="center"
+          alignItems="center"
+          direction="row"
+          style={{ gap: "2vw" }}
+        >
+          <EuiFlexItem grow={false} style={{ flexBasis: "fit-content" }}>
+            {isDarkTheme ? (
+              <EuiButtonIcon
+                onClick={invertTheme}
+                iconType="sun"
+                display="fill"
+                color="warning"
+                size="s"
+                aria-lable="light-mode"
+              />
+            ) : (
+              <EuiButtonIcon
+                onClick={invertTheme}
+                iconType="moon"
+                display="fill"
+                color="ghost"
+                size="s"
+                aria-lable="dark-mode"
+              />
+            )}
+          </EuiFlexItem>
+          <EuiFlexItem grow={false} style={{ flexBasis: "fit-content" }}>
+            <EuiButtonIcon
+              onClick={logout}
+              iconType="lock"
+              display="fill"
+              size="s"
+              aria-lable="logout-button"
+            />
+          </EuiFlexItem>
+        </EuiFlexGroup>,
       ],
     },
   ];
