@@ -35,7 +35,33 @@ export default function OneOnOneMeeting() {
     setSelectedUser(selectedOptions);
   };
 
-  const createMeeting = () => {};
+  const validateForm = () => {
+    const clonedShowErrors = { ...showErrors };
+    let errors = false;
+    if (!meetingName.length) {
+      clonedShowErrors.meetingName.show = true;
+      clonedShowErrors.meetingName.message = ["Please Enter Meeting Name"];
+      errors = true;
+    } else {
+      clonedShowErrors.meetingName.show = false;
+      clonedShowErrors.meetingName.message = [];
+    }
+    if (!selectedUser.length) {
+      clonedShowErrors.meetingUser.show = true;
+      clonedShowErrors.meetingUser.message = ["Please Select a User"];
+      errors = true;
+    } else {
+      clonedShowErrors.meetingUser.show = false;
+      clonedShowErrors.meetingUser.message = [];
+    }
+    setShowErrors(clonedShowErrors);
+    return errors;
+  };
+
+  const createMeeting = () => {
+    if (!validateForm()) {
+    }
+  };
 
   return (
     <div style={{ display: "flex", height: "100vh", flexDirection: "column" }}>
@@ -47,6 +73,8 @@ export default function OneOnOneMeeting() {
             placeholder="Meeting Name"
             value={meetingName}
             setMeetingName={setMeetingName}
+            isInvalid={showErrors.meetingName.show}
+            error={showErrors.meetingName.message}
           />
           <MeetingUsersField
             label="Invite User"
@@ -56,6 +84,8 @@ export default function OneOnOneMeeting() {
             singleSelection={{ asPlainText: true }}
             isClearable={false}
             placeholder="Select a user"
+            isInvalid={showErrors.meetingUser.show}
+            error={showErrors.meetingUser.message}
           />
           <MeetingDateField selected={startDate} setStartDate={setStartDate} />
           <EuiSpacer />

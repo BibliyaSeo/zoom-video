@@ -9,6 +9,8 @@ export default function MeetingUsersField({
   isClearable,
   placeholder,
   singleSelection = false,
+  isInvalid,
+  error,
 }: {
   label: string;
   options: any;
@@ -17,9 +19,11 @@ export default function MeetingUsersField({
   isClearable: boolean;
   placeholder: string;
   singleSelection: any;
+  isInvalid: boolean;
+  error: Array<string>;
 }) {
   return (
-    <EuiFormRow label={label}>
+    <EuiFormRow label={label} isInvalid={isInvalid} error={error}>
       <EuiComboBox
         options={options}
         onChange={onChange}
