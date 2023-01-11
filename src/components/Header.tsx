@@ -13,7 +13,7 @@ import { useAppSelector } from "../app/hooks";
 import { firebaseAuth } from "../utils/FirebaseConfig";
 import { signOut } from "firebase/auth";
 import { changeTheme } from "../app/slices/AuthSlice";
-import { getCreateMeetingBreadCrumbs } from "../utils/breadCrumbs";
+import { getCreateMeetingBreadCrumbs, getOneonOneMeetingBreadCrumbs } from "../utils/breadCrumbs";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ export default function Header() {
   useEffect(() => {
     const { pathname } = location;
     if (pathname === "/create") setBreadCrumbs(getCreateMeetingBreadCrumbs(navigate));
+    else if (pathname === "/create1on1") setBreadCrumbs(getOneonOneMeetingBreadCrumbs(navigate));
   }, [location, navigate]);
 
   const invertTheme = () => {

@@ -31,6 +31,7 @@ export default function MeetingUsersField({
         singleSelection={singleSelection}
         placeholder={placeholder}
         isClearable={isClearable}
+        isInvalid={isInvalid}
       />
     </EuiFormRow>
   );

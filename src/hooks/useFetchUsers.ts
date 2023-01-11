@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getDocs, query, where } from "firebase/firestore";
 import { useAppSelector } from "../app/hooks";
 import { userRef } from "../utils/FirebaseConfig";
-import { UserType } from "../utils/Types";
+import { UserType } from "../utils/types";
 
 export default function useFetchUsers() {
   const [users, setUsers] = useState<Array<UserType>>([]);
