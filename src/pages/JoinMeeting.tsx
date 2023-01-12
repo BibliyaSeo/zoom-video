@@ -86,6 +86,7 @@ export default function JoinMeeting() {
       params.id as string,
       user?.uid ? user?.uid : generateMeetingId(),
       generateMeetingId()
+      // user.displayNAme === '한글' && '오류남ㅜㅜ'
       // user?.displayName ? user.displayName : generateMeetingId()
     );
 
