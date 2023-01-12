@@ -1,5 +1,5 @@
 import { EuiFlexGroup, EuiForm, EuiSpacer } from "@elastic/eui";
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import MeetingNameField from "../components/FormComponents/MeetingNameField";
 import MeetingUsersField from "../components/FormComponents/MeetingUsersField";
 import Header from "../components/Header";
@@ -70,7 +70,7 @@ export default function OneOnOneMeeting() {
     if (!validateForm()) {
       const meetingId = generateMeetingId();
       await addDoc(meetingsRef, {
-        createBy: uid,
+        createdBy: uid,
         meetingId,
         meetingName,
         meetingType: "1-on-1",

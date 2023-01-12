@@ -1,5 +1,5 @@
 import { EuiFlexGroup, EuiForm, EuiFormRow, EuiSpacer, EuiSwitch } from "@elastic/eui";
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import MeetingNameField from "../components/FormComponents/MeetingNameField";
 import MeetingUsersField from "../components/FormComponents/MeetingUsersField";
 import Header from "../components/Header";
@@ -15,7 +15,6 @@ import { generateMeetingId } from "../utils/generateMeetingId";
 import { useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../hooks/useToast";
-import { User } from "firebase/auth";
 import MeetingMaximumUserField from "../components/FormComponents/MeetingMaximumUserField";
 
 export default function VideoConference() {
@@ -58,7 +57,7 @@ export default function VideoConference() {
       clonedShowErrors.meetingName.show = false;
       clonedShowErrors.meetingName.message = [];
     }
-    if (!selectedUser.length) {
+    if (!selectedUser.length && !anyoneCanJoin) {
       clonedShowErrors.meetingUser.show = true;
       clonedShowErrors.meetingUser.message = ["Please Select a User"];
       errors = true;
@@ -74,7 +73,7 @@ export default function VideoConference() {
     if (!validateForm()) {
       const meetingId = generateMeetingId();
       await addDoc(meetingsRef, {
-        createBy: uid,
+        createdBy: uid,
         meetingId,
         meetingName,
         meetingType: anyoneCanJoin ? "anyone-can-join" : "video-conference",

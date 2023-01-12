@@ -13,7 +13,14 @@ import { useAppSelector } from "../app/hooks";
 import { firebaseAuth } from "../utils/FirebaseConfig";
 import { signOut } from "firebase/auth";
 import { changeTheme } from "../app/slices/AuthSlice";
-import { getCreateMeetingBreadCrumbs, getOneonOneMeetingBreadCrumbs } from "../utils/breadCrumbs";
+import {
+  getCreateMeetingBreadCrumbs,
+  getDashboardBreadCrumbs,
+  getMeetingsBreadCrumbs,
+  getMyMeetingsBreadCrumbs,
+  getOneonOneMeetingBreadCrumbs,
+  getVideoConferenceBreadCrumbs,
+} from "../utils/breadCrumbs";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -30,8 +37,15 @@ export default function Header() {
 
   useEffect(() => {
     const { pathname } = location;
-    if (pathname === "/create") setBreadCrumbs(getCreateMeetingBreadCrumbs(navigate));
+    if (pathname === "/") setBreadCrumbs(getDashboardBreadCrumbs(navigate));
+    else if (pathname === "/create") setBreadCrumbs(getCreateMeetingBreadCrumbs(navigate));
     else if (pathname === "/create1on1") setBreadCrumbs(getOneonOneMeetingBreadCrumbs(navigate));
+    else if (pathname === "/videoconference")
+      setBreadCrumbs(getVideoConferenceBreadCrumbs(navigate));
+    else if (pathname === "/mymeetings") setBreadCrumbs(getMyMeetingsBreadCrumbs(navigate));
+    else if (pathname === "/meetings") {
+      setBreadCrumbs(getMeetingsBreadCrumbs(navigate));
+    }
   }, [location, navigate]);
 
   const invertTheme = () => {
@@ -82,7 +96,7 @@ export default function Header() {
                 display="fill"
                 color="warning"
                 size="s"
-                aria-lable="light-mode"
+                aria-labelledby="light"
               />
             ) : (
               <EuiButtonIcon
@@ -91,7 +105,7 @@ export default function Header() {
                 display="fill"
                 color="ghost"
                 size="s"
-                aria-lable="dark-mode"
+                aria-labelledby="dark"
               />
             )}
           </EuiFlexItem>
@@ -101,7 +115,7 @@ export default function Header() {
               iconType="lock"
               display="fill"
               size="s"
-              aria-lable="logout-button"
+              aria-labelledby="logout"
             />
           </EuiFlexItem>
         </EuiFlexGroup>,
@@ -136,7 +150,7 @@ export default function Header() {
                 display="fill"
                 color="warning"
                 size="s"
-                aria-lable="light-mode"
+                aria-labelledby="light"
               />
             ) : (
               <EuiButtonIcon
@@ -145,7 +159,7 @@ export default function Header() {
                 display="fill"
                 color="ghost"
                 size="s"
-                aria-lable="dark-mode"
+                aria-labelledby="dark"
               />
             )}
           </EuiFlexItem>
@@ -155,7 +169,7 @@ export default function Header() {
               iconType="lock"
               display="fill"
               size="s"
-              aria-lable="logout-button"
+              aria-labelledby="logout"
             />
           </EuiFlexItem>
         </EuiFlexGroup>,
